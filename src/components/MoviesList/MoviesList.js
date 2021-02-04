@@ -18,7 +18,7 @@ export default class MoviesList extends Component {
 
   getMovies() {
     this.movie_service.get_movies('return').then((movies) => {
-      this.setState({ list_arr: movies });
+      this.setState({ list_arr: movies.splice(0,6) });
     });
   }
 
@@ -37,9 +37,7 @@ export default class MoviesList extends Component {
     ));
 
     return (
-      <section className="main">
-        <ul className="todo-list">{task_list}</ul>
-      </section>
+        <ul className="movie_page">{task_list}</ul>
     );
   }
 }

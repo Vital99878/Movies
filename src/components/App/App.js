@@ -4,6 +4,7 @@ import './App.css';
 import MoviesList from '../MoviesList';
 import Pagination from '../Pagination';
 import Search from '../Search';
+import Tabs from '../Tabs';
 
 export default class App extends Component {
   state = {
@@ -67,12 +68,6 @@ export default class App extends Component {
     this.setState({ filter });
   };
 
-  clear_completed = () => {
-    this.setState(({ todo_list }) => ({
-      todo_list: todo_list.filter((item) => item.status !== 'completed'),
-    }));
-  };
-
   filter = (items, filter) => {
     switch (filter) {
       case 'all':
@@ -91,10 +86,13 @@ export default class App extends Component {
     const visibleList = this.filter(todo_list, filter);
 
     return (
-      <section className="movie-app">
-        <Search toggle_filter={visibleList} />
+      <section className="app">
+        <div>
+          <Tabs />
+          <Search toggle_filter={visibleList} />
+        </div>
         <MoviesList list_arr={visibleList} toggle_status={this.toggle_status} remove_todo={this.remove_todo} />
-        <Pagination clear_completed={this.clear_completed} toggle_filter={this.toggle_filter} />
+        <Pagination toggle_filter={this.toggle_filter} />
       </section>
     );
   }
