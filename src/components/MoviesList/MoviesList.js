@@ -24,14 +24,14 @@ export default class MoviesList extends Component {
   }
 
   getGenres() {
-    this.movie_service.get_genres().then((genres) => {
-      this.setState({ genres });
+    this.movie_service.get_genres().then((genres_ids) => {
+      this.setState({ genres_ids });
     });
   }
 
   render() {
     const { add_rate } = this.props;
-    const { list_arr, genres } = this.state;
+    const { list_arr, genres_ids } = this.state;
 
     if (!list_arr) {
       return <div>No data</div>;
@@ -39,7 +39,7 @@ export default class MoviesList extends Component {
 
     const movies = list_arr.map((movie) => (
       <li key={movie.id}>
-        <Movie {...movie} add_rate={add_rate} />
+        <Movie {...movie} add_rate={add_rate} genres_ids={genres_ids}/>
       </li>
     ));
 
