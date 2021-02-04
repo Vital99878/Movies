@@ -33,7 +33,7 @@ export default class MoviesList extends Component {
     const { add_rate } = this.props;
     const { list_arr, genres_ids } = this.state;
 
-    if (!list_arr) {
+    if (!list_arr || !genres_ids) {
       return <div>No data</div>;
     }
 

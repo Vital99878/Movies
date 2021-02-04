@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 
+
+
+
 import MoviesList from '../MoviesList';
 import Pagination from '../Pagination';
 import Search from '../Search';
@@ -93,6 +96,7 @@ export default class App extends Component {
         </div>
         <MoviesList list_arr={visibleList} toggle_status={this.toggle_status} remove_todo={this.remove_todo} />
         <Pagination toggle_filter={this.toggle_filter} />
+
       </section>
     );
   }

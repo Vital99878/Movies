@@ -1,6 +1,10 @@
-import React from 'react';
+import React            from 'react';
 import './Movie.css';
-import PropTypes from 'prop-types';
+import PropTypes        from 'prop-types';
+import { Rate }         from 'antd';
+import 'antd/dist/antd.css';
+import num_round_half, {truncate_update} from '../../utitlity'
+
 
 function Movie({ title, overview, genres, rate, poster_path, release, genres_ids }) {
   const monthNames = [
@@ -25,6 +29,8 @@ function Movie({ title, overview, genres, rate, poster_path, release, genres_ids
 
   const genres_list = genres_names.map((genre) => <div className="card__genre">{genre}</div>);
 
+  const rate_style = { width: '280px', display: 'flex', justifyContent: 'space-around', marginBottom: '8px' };
+
   const release_date = (date) => {
     const month = monthNames[new Date(date).getMonth()];
     const year = new Date(date).getFullYear();
@@ -32,7 +38,7 @@ function Movie({ title, overview, genres, rate, poster_path, release, genres_ids
     return `${month} ${day_number}, ${year}`;
   };
 
-  const truncate_overview = (text) => `${text.slice(0, 180)} ...`;
+
 
   return (
     <div className="card">
@@ -44,8 +50,8 @@ function Movie({ title, overview, genres, rate, poster_path, release, genres_ids
         </div>
         <p className="card__release">{release_date(release)}</p>
         <div className="card__genres"> {genres_list}</div>
-        <p className="card__overview">{truncate_overview(overview)}</p>
-        <p className="card__stars">{rate}</p>
+        <p className="card__overview">{truncate_update(overview, 235)}</p>
+        <Rate allowHalf defaultValue={num_round_half(rate)} count={10} style={rate_style} />
       </div>
     </div>
   );

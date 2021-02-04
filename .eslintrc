@@ -31,7 +31,8 @@
     "no-param-reassign": "off",
     "react/jsx-pascal-case": "off",
     "no-unused-vars": "warn",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "no-nested-ternary": "off"
   },
   "settings": {
     "react": {

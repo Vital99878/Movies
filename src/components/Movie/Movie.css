@@ -54,7 +54,7 @@
   font-size: 12px;
   margin: 0;
   padding: 8px;
-  border: 2px solid #E9D100;
+  border: 2px solid #e9d100;
   border-radius: 50%;
 }
 
@@ -73,16 +73,25 @@
 }
 
 .card__genre {
-  background: #FAFAFA;
-  border: 1px solid #D9D9D9;
+  background: #fafafa;
+  border: 1px solid #d9d9d9;
   box-sizing: border-box;
   border-radius: 2px;
   height: 20px;
-  padding: 2px 3px 3px 5px;
+  padding: 2px 6px 18px 5px;
   margin-right: 8px;
   margin-bottom: 6px;
 }
 
+.card__genre:last-child {
+  margin-right: 0;
+}
+
 .card__stars {
   margin: 0;
+}
+
+.ant-rate-star {
+  height: 16px;
+  width: 16px;
 }
