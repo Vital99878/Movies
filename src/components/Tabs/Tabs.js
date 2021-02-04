@@ -10,11 +10,15 @@ class Tabs extends Component {
     const { search } = this.state;
 
     return (
-    <div className="tabs" >
-      <button className="tabs__tab" type='button'>Search</button>
-      <button className="tabs__tab--active" type='button'>Rated</button>
-    </div>
-    )
+      <div className="tabs">
+        <button className="tabs__tab" type="button">
+          Search
+        </button>
+        <button className="tabs__tab--active" type="button">
+          Rated
+        </button>
+      </div>
+    );
   }
 }
 

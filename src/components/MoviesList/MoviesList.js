@@ -14,31 +14,36 @@ export default class MoviesList extends Component {
   constructor(props) {
     super(props);
     this.getMovies();
+    this.getGenres();
   }
 
   getMovies() {
     this.movie_service.get_movies('return').then((movies) => {
-      this.setState({ list_arr: movies.splice(0,6) });
+      this.setState({ list_arr: movies.splice(0, 6) });
+    });
+  }
+
+  getGenres() {
+    this.movie_service.get_genres().then((genres) => {
+      this.setState({ genres });
     });
   }
 
   render() {
-    const { toggle_status, remove_todo } = this.props;
-    const { list_arr } = this.state;
+    const { add_rate } = this.props;
+    const { list_arr, genres } = this.state;
 
     if (!list_arr) {
       return <div>No data</div>;
     }
 
-    const task_list = list_arr.map((todo) => (
-      <li key={todo.id}>
-        <Movie {...todo} toggle_status={toggle_status} remove_todo={remove_todo} />
+    const movies = list_arr.map((movie) => (
+      <li key={movie.id}>
+        <Movie {...movie} add_rate={add_rate} />
       </li>
     ));
 
-    return (
-        <ul className="movie_page">{task_list}</ul>
-    );
+    return <ul className="movie_page">{movies}</ul>;
   }
 }
 
