@@ -17,7 +17,7 @@ export default class App extends Component {
     genres_ids: [],
     quantity_movies: 0,
     loading: true,
-    error: false,
+    error: true,
   };
 
   constructor(props) {
@@ -37,9 +37,12 @@ export default class App extends Component {
   }
 
   getGenres() {
-    this.movie_service.get_genres().then((genres_ids) => {
-      this.setState({ genres_ids });
-    });
+    this.movie_service
+      .get_genres()
+      .then((genres_ids) => {
+        this.setState({ genres_ids });
+      })
+      .catch(() => this.onError());
   }
 
   change_page_number = (page) => {
@@ -107,11 +110,7 @@ export default class App extends Component {
     if (error) {
       return (
         <div>
-          <Alert
-          message="Warning Text"
-          description="Warning Description Warning Description Warning Description Warning Description"
-          type="warning"
-          />
+          <Alert message="Don't exist movie" description="Try search another movie" type="warning" />
         </div>
       );
     }
