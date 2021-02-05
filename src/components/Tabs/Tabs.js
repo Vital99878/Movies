@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Tabs.css';
+import { rm_active_class, EventHandler } from '../../utitlity';
 
 class Tabs extends Component {
   state = {
@@ -8,13 +9,15 @@ class Tabs extends Component {
 
   render() {
     const { search } = this.state;
-    const toggle_tab = (e) => {
-      e.target.classList.toggle('tabs__tab--active');
+
+    const toggle_tab = (event) => {
+      const tabs = document.querySelector('.tabs');
+      console.log(event.target);
     };
 
     return (
       <div className="tabs">
-        <button onClick={toggle_tab} className="tabs__tab--active" type="button">
+        <button onClick={toggle_tab} className="tabs__tab tabs__tab--active" type="button">
           Search
         </button>
         <button onClick={toggle_tab} className="tabs__tab" type="button">
