@@ -8,13 +8,16 @@ class Tabs extends Component {
 
   render() {
     const { search } = this.state;
+    const toggle_tab = (e) => {
+      e.target.classList.toggle('tabs__tab--active');
+    };
 
     return (
       <div className="tabs">
-        <button className="tabs__tab" type="button">
+        <button onClick={toggle_tab} className="tabs__tab--active" type="button">
           Search
         </button>
-        <button className="tabs__tab--active" type="button">
+        <button onClick={toggle_tab} className="tabs__tab" type="button">
           Rated
         </button>
       </div>

@@ -1,22 +1,28 @@
+@font-face {
+  font-family: 'Inter-Medium';
+  font-weight: normal;
+  src: url('../../fonts/Inter-Medium.ttf'), url('../../fonts/Inter-Medium.ttf');
+}
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin: auto;
-  background-color: #E5E5E5 !important;
+  margin: 0;
+  background-color: #e5e5e5 !important;
 }
 
 .app {
   background: #fff;
-  margin: 130px auto 40px auto;
+  margin: 40px auto 0 auto;
   position: relative;
   width: 1110px;
-  height: 1148px;
+  max-height: 1200px;
   padding: 32px 36px 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-content: center;
 }
 
 .movie-app input::-webkit-input-placeholder {
@@ -29,6 +35,24 @@ body {
   font-style: italic;
   font-weight: 300;
   color: rgba(0, 0, 0, 0.4);
+}
+
+.ant-pagination {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.ant-pagination-item,
+.ant-pagination-item-link {
+  border: none !important;
+}
+.ant-pagination-item-active {
+  background-color: #1890ff !important;
+  border-radius: 6px !important;
+}
+.ant-pagination-item-active a {
+  font-family: Inter-Medium, sans-serif !important;
+  font-size: 12px !important;
+  color: white !important;
 }
 
 @media (max-width: 430px) {

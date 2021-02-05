@@ -1,5 +1,6 @@
 import React from 'react';
 import './Api.css';
+import { create_pages } from '../../utitlity';
 
 const api_key = '4a2f017c8cdb38c57478d603057ad10e';
 const url = 'https://api.themoviedb.org/3/search/movie/';
@@ -13,7 +14,7 @@ export default class Movies_Service {
     }
     const body = await response.json();
     const movies = body.results;
-    return movies.map((movie) => ({
+    const updated_movies = movies.map((movie) => ({
       id: movie.id,
       title: movie.original_title,
       rate: movie.vote_average,
@@ -22,6 +23,8 @@ export default class Movies_Service {
       release: movie.release_date,
       genres: movie.genre_ids,
     }));
+    const quantity_movies = updated_movies.length;
+    return { movies_pages: create_pages(updated_movies, 6), quantity_movies };
   }
 
   async get_genres() {

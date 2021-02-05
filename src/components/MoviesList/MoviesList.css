@@ -5,12 +5,12 @@
 }
 
 .movie_page {
-  margin: 0;
+  margin: 32px 0 42px;
   padding: 0;
   list-style: none;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, 282px);
+  grid-template-rows: auto;
   grid-column-gap: 38px;
   grid-row-gap: 34px;
 }
