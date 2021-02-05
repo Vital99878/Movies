@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import 'antd/dist/antd.css';
 
-import { Pagination } from 'antd';
+import { Pagination, Spin, Alert } from 'antd';
 import MoviesList from '../MoviesList';
 import Search from '../Search';
 import Tabs from '../Tabs';
@@ -16,6 +16,8 @@ export default class App extends Component {
     page_number: 0,
     genres_ids: [],
     quantity_movies: 0,
+    loading: true,
+    error: false,
   };
 
   constructor(props) {
@@ -25,10 +27,13 @@ export default class App extends Component {
   }
 
   getMovies() {
-    this.movie_service.get_movies('return').then((movies) => {
-      const { movies_pages, quantity_movies } = movies;
-      this.setState({ movies_pages, quantity_movies });
-    });
+    this.movie_service
+      .get_movies('return')
+      .then((movies) => {
+        const { movies_pages, quantity_movies } = movies;
+        this.setState({ movies_pages, quantity_movies, loading: false });
+      })
+      .catch(() => this.onError());
   }
 
   getGenres() {
@@ -41,6 +46,10 @@ export default class App extends Component {
     this.setState({
       page_number: page - 1,
     });
+  };
+
+  onError = () => {
+    this.setState({ error: true });
   };
 
   toggle_status = (id) => {
@@ -84,13 +93,27 @@ export default class App extends Component {
   };
 
   render() {
-    const { movies_pages, page_number, genres_ids, quantity_movies } = this.state;
+    const { movies_pages, page_number, genres_ids, quantity_movies, loading, error } = this.state;
     const visibleList = '';
-    const all_pages = movies_pages.length;
-    console.log(all_pages * 10);
 
-    if (!movies_pages || !genres_ids) {
-      return <div>No data</div>;
+    if (loading) {
+      return (
+        <div className="spinner">
+          <Spin size="large" />
+        </div>
+      );
+    }
+
+    if (error) {
+      return (
+        <div>
+          <Alert
+          message="Warning Text"
+          description="Warning Description Warning Description Warning Description Warning Description"
+          type="warning"
+          />
+        </div>
+      );
     }
 
     return (
