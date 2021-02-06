@@ -12,23 +12,30 @@ export default class App extends Component {
   movie_service = new Movies_Service();
 
   state = {
-    movies_pages: false,
+    movies_pages: null,
     page_number: 0,
     genres_ids: [],
     quantity_movies: 0,
     loading: true,
-    error: true,
+    error: false,
+    search: 'return',
   };
 
-  constructor(props) {
-    super(props);
-    this.getMovies();
+  componentDidMount() {
+    this.getMovies('return');
     this.getGenres();
   }
 
-  getMovies() {
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { search } = this.state;
+    if (search !== prevState.search) {
+      this.getMovies(search);
+    }
+  }
+
+  getMovies(movie) {
     this.movie_service
-      .get_movies('return')
+      .get_movies(movie)
       .then((movies) => {
         const { movies_pages, quantity_movies } = movies;
         this.setState({ movies_pages, quantity_movies, loading: false });
@@ -52,18 +59,7 @@ export default class App extends Component {
   };
 
   onError = () => {
-    this.setState({ error: true });
-  };
-
-  toggle_status = (id) => {
-    const { todo_list } = this.state;
-    const updated_todo_list = todo_list.map((todo) => {
-      if (todo.id === id) {
-        todo.status = todo.status === 'active' ? (todo.status = 'completed') : 'active';
-      }
-      return todo;
-    });
-    this.setState({ todo_list: updated_todo_list });
+    this.setState({ loading: false, error: true });
   };
 
   add_rate = (label) => {
@@ -82,22 +78,12 @@ export default class App extends Component {
     }
   };
 
-  filter = (items, filter) => {
-    switch (filter) {
-      case 'all':
-        return items;
-      case 'active':
-        return items.filter((item) => item.status === 'active');
-      case 'completed':
-        return items.filter((item) => item.status === 'completed');
-      default:
-        return items;
-    }
+  get_search_text = (text) => {
+    this.setState({ search: text, loading: true });
   };
 
   render() {
-    const { movies_pages, page_number, genres_ids, quantity_movies, loading, error } = this.state;
-    const visibleList = '';
+    const { movies_pages, page_number, genres_ids, quantity_movies, loading, error, search } = this.state;
 
     if (loading) {
       return (
@@ -110,7 +96,7 @@ export default class App extends Component {
     if (error) {
       return (
         <div>
-          <Alert message="Don't exist movie" description="Try search another movie" type="warning" />
+          <Alert message="There are no movies with this name" description="Try search another movie" type="warning" />
         </div>
       );
     }
@@ -119,7 +105,7 @@ export default class App extends Component {
       <section className="app">
         <div>
           <Tabs />
-          <Search toggle_filter={visibleList} />
+          <Search search={search} get_search_text={this.get_search_text} />
         </div>
         <MoviesList movies_pages={movies_pages} page_number={page_number} genres_ids={genres_ids} />
         <Pagination current={page_number + 1} pageSize={6} onChange={this.change_page_number} total={quantity_movies} />

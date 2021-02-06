@@ -23,6 +23,9 @@ export default class Movies_Service {
       genres: movie.genre_ids,
     }));
     const quantity_movies = updated_movies.length;
+    if (updated_movies.length ===0 ) {
+      throw new Error('not found film')
+    }
     return { movies_pages: create_pages(updated_movies, 6), quantity_movies };
   }
 
