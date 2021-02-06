@@ -12,7 +12,6 @@ class Tabs extends Component {
 
     const toggle_tab = (event) => {
       const tabs = document.querySelector('.tabs');
-      console.log(event.target);
     };
 
     return (

@@ -32,7 +32,6 @@ export function rm_active_class(active_class, no_active_class) {
 export const EventHandler = (active_class, no_active_class) => (evt) => {
   evt.preventDefault();
   const item = evt.target;
-  console.log(item);
   // работает с тегом a
   if (item.classList.contains(no_active_class)) {
     rm_active_class(active_class, no_active_class);

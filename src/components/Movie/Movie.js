@@ -20,6 +20,21 @@ function Movie({ title, overview, genres, rate, poster_path, release, genres_ids
     'November',
     'December',
   ];
+  const rating = (num) => {
+    if (num <= 3) {
+      num = '0-3';
+    }
+    if (num > 3 && num <= 5) {
+      num = '4-5';
+    }
+    if (num > 5 && num <= 7) {
+      num = '6-7';
+    }
+    if (num > 7) {
+      num = '8-10';
+    }
+    return num;
+  };
 
   const genres_names = genres
     .map((genre) => genres_ids.filter((item) => item.id === genre))
@@ -43,7 +58,7 @@ function Movie({ title, overview, genres, rate, poster_path, release, genres_ids
       <div className="card__description">
         <div className="card__title_rate">
           <p className="card__title">{title}</p>
-          <picture className="card__rate">{rate}</picture>
+          <picture className={`card__rate--${rating(rate)}`}>{rate}</picture>
         </div>
         <p className="card__release">{release_date(release)}</p>
         <div className="card__genres"> {genres_list}</div>
@@ -60,6 +75,6 @@ Movie.defaultProp = {
   id: Math.random() * 784,
 };
 Movie.propTypes = {
-  //  id: PropTypes.number.isRequired,
+  genres_ids: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 export default Movie;

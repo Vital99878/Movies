@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import './MoviesList.css';
 import PropTypes from 'prop-types';
 import Movie from '../Movie/Movie';
+import { Consumer } from '../genres-context/genres-context';
 
-const MoviesList = ({ movies_pages, page_number, genres_ids }) => {
+const MoviesList = ({ movies_pages, page_number }) => {
   const movies = movies_pages[page_number].map((movie) => (
     <li key={movie.id}>
-      <Movie {...movie} genres_ids={genres_ids} />
+      <Consumer>{(genres_ids) => <Movie {...movie} genres_ids={genres_ids} />}</Consumer>
     </li>
   ));
 
