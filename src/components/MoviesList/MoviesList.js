@@ -7,7 +7,7 @@ import { Consumer } from '../genres-context/genres-context';
 const MoviesList = ({ movies_pages, page_number }) => {
   const movies = movies_pages[page_number].map((movie) => (
     <li key={movie.id}>
-      <Consumer>{(genres_ids) => <Movie {...movie} genres_ids={genres_ids} />}</Consumer>
+      <Consumer>{( movie_data) => <Movie {...movie} movie_data={movie_data} />}</Consumer>
     </li>
   ));
 

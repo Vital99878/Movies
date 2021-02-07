@@ -33,7 +33,8 @@
     "react/prop-types": "off",
     "no-nested-ternary": "off",
     "no-unused-vars": "off",
-    "prefer-rest-params": "off"
+    "prefer-rest-params": "off",
+    "no-underscore-dangle": "off"
   },
   "settings": {
     "react": {

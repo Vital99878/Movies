@@ -9,18 +9,19 @@ class Tabs extends Component {
 
   render() {
     const { search } = this.state;
-    const {getRatedMovies} = this.props;
+    const {getRatedMovies,guest_session_id} = this.props;
 
-    const toggle_tab = (event) => {
-      const tabs = document.querySelector('.tabs');
+    const toggle_rated = () => {
+      console.log(guest_session_id)
+      getRatedMovies(guest_session_id)
     };
 
     return (
       <div className="tabs">
-        <button onClick={toggle_tab} className="tabs__tab tabs__tab--active" type="button">
+        <button onClick={toggle_rated} className="tabs__tab tabs__tab--active" type="button">
           Search
         </button>
-        <button onClick={getRatedMovies} className="tabs__tab" type="button">
+        <button onClick={toggle_rated} className="tabs__tab" type="button">
           Rated
         </button>
       </div>
