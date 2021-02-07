@@ -20,11 +20,13 @@ export default class App extends Component {
     loading: true,
     error: false,
     search: 'return',
+    guest_session_id: null
   };
 
   componentDidMount() {
     this.getMovies('return');
     this.getGenres();
+    this.getGuestSessionId()
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -44,6 +46,17 @@ export default class App extends Component {
       .catch(() => this.onError());
   }
 
+  getRatedMovies = (guest_session_id) =>{
+    this.movie_service
+        .get_ranked(guest_session_id)
+        .then((movies) => {
+          console.log(movies)
+          const { movies_pages, quantity_movies } = movies;
+          this.setState({ movies_pages, quantity_movies, loading: false, error: false });
+        })
+        .catch(() => this.onError());
+  }
+
   getGenres() {
     this.movie_service
       .get_genres()
@@ -51,6 +64,15 @@ export default class App extends Component {
         this.setState({ genres_ids });
       })
       .catch(() => this.onError());
+  }
+
+  getGuestSessionId() {
+    this.movie_service
+        .get_guest_session_id()
+        .then((guest_session_id) => {
+          this.setState({ guest_session_id });
+        })
+        .catch(() => this.onError());
   }
 
   change_page_number = (page) => {
@@ -84,7 +106,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { movies_pages, page_number, genres_ids, quantity_movies, loading, error, search } = this.state;
+    const { movies_pages, page_number, genres_ids, quantity_movies, loading, error, search, guest_session_id } = this.state;
 
     if (loading) {
       return (
@@ -98,7 +120,7 @@ export default class App extends Component {
       <section className="app">
         <Provider value={genres_ids}>
           <div>
-            <Tabs />
+            <Tabs getRatedMovies={this.getRatedMovies}/>
             <Search search={search} get_search_text={this.get_search_text} />
           </div>
           {error ? (

@@ -9,6 +9,7 @@ class Tabs extends Component {
 
   render() {
     const { search } = this.state;
+    const {getRatedMovies} = this.props;
 
     const toggle_tab = (event) => {
       const tabs = document.querySelector('.tabs');
@@ -19,7 +20,7 @@ class Tabs extends Component {
         <button onClick={toggle_tab} className="tabs__tab tabs__tab--active" type="button">
           Search
         </button>
-        <button onClick={toggle_tab} className="tabs__tab" type="button">
+        <button onClick={getRatedMovies} className="tabs__tab" type="button">
           Rated
         </button>
       </div>

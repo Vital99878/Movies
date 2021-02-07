@@ -52,6 +52,10 @@ function Movie({ title, overview, genres, rate, poster_path, release, genres_ids
     return `${month} ${day_number}, ${year}`;
   };
 
+  const get_rate = (star) => {
+    console.log(star)
+  }
+
   return (
     <div className="card">
       <img className="card__poster" src={poster_path} alt="Poster" />
@@ -63,7 +67,7 @@ function Movie({ title, overview, genres, rate, poster_path, release, genres_ids
         <p className="card__release">{release_date(release)}</p>
         <div className="card__genres"> {genres_list}</div>
         <p className="card__overview">{truncate_update(overview, 220)}</p>
-        <Rate allowHalf defaultValue={0} count={10} style={rate_style} />
+        <Rate allowHalf defaultValue={0} count={10} style={rate_style} onChange={get_rate}/>
       </div>
     </div>
   );
