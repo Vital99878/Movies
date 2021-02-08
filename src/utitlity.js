@@ -44,3 +44,4 @@ export const EventHandler = (active_class, no_active_class) => (evt) => {
     item.parentNode.classList.add(active_class);
   }
 };
+
