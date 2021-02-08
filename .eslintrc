@@ -30,9 +30,9 @@
     "react/jsx-filename-extension": "off",
     "no-param-reassign": "off",
     "react/jsx-pascal-case": "off",
-    "no-unused-vars": "warn",
     "react/prop-types": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "no-unused-vars": "off"
   },
   "settings": {
     "react": {

@@ -1,4 +1,3 @@
-import React from 'react';
 import './Api.css';
 import { create_pages } from '../../utitlity';
 
