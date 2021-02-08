@@ -66,7 +66,7 @@ function Movie({ title, overview, genres, rate, poster_path, release, movie_data
       <div className="card__description">
         <div className="card__title_rate">
           <p className="card__title">{title}</p>
-          <picture className={`card__rate--${rating(rate)}`}>{rate}</picture>
+          <div className={`card__rate--${rating(rate)}`}>{rate}</div>
         </div>
         <p className="card__release">{release_date(release)}</p>
         <div className="card__genres"> {genres_list}</div>

@@ -58,7 +58,6 @@ export default class Movies_Service {
     );
     const body = await response.json();
     const movies = body.results;
-    console.log(body);
     const updated_movies = this._transform_movies(movies);
 
     const quantity_movies = updated_movies.length;

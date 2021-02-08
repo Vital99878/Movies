@@ -22,6 +22,7 @@ export default class App extends Component {
     error: false,
     search: 'return',
     guest_session_id: null,
+    show_search: true
   };
 
   componentDidMount() {
@@ -50,17 +51,6 @@ export default class App extends Component {
         .catch( () => this.onError() );
   }
 
-  getRatedMovies = ( guest_session_id ) => {
-    this.movie_service
-        .get_rated_movies(guest_session_id )
-        .then( ( movies ) => {
-          console.log( movies );
-          const { movies_pages, quantity_movies } = movies;
-          this.setState( { movies_pages, quantity_movies, loading: false, error: false } );
-        } )
-        .catch( () => this.onError() );
-  };
-
   getGenres() {
     this.movie_service
         .get_genres()
@@ -69,6 +59,23 @@ export default class App extends Component {
         } )
         .catch( () => this.onError() );
   }
+
+  ratedTab = ( guest_session_id ) => {
+    this.setState({ show_search: false})
+    this.movie_service
+        .get_rated_movies(guest_session_id )
+        .then( ( movies ) => {
+          console.log( movies );
+          const { movies_pages, quantity_movies } = movies;
+          this.setState( { movies_pages, quantity_movies, loading: false, error: false, show_search: false } );
+        } )
+        .catch( () => this.onError() );
+  };
+
+  searchTab = (  ) => {
+    this.setState({ show_search: true})
+    this.getMovies('return')
+  };
 
   addRate = ( guest_session_id, rate ) => {
     this.movie_service.add_rate( guest_session_id, rate ).then( res => console.log( res ) );
@@ -98,7 +105,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { movies_pages, page_number, genres_ids, quantity_movies, loading, error, search, guest_session_id } = this.state;
+    const { movies_pages, page_number, genres_ids, quantity_movies, loading, error, search, guest_session_id, show_search } = this.state;
     
     if ( loading ) {
       return (
@@ -113,8 +120,8 @@ export default class App extends Component {
       <section className="app">
         <Provider value={movie_data}>
           <div>
-            <Tabs getRatedMovies={this.getRatedMovies} guest_session_id={guest_session_id}/>
-            <Search search={search} get_search_text={this.get_search_text} />
+            <Tabs ratedTab={this.ratedTab} searchTab={this.searchTab} guest_session_id={guest_session_id}/>
+            {show_search ? <Search search={search} get_search_text={this.get_search_text}  /> : null}
           </div>
           {error ? (
             <Alert message="There are no movies with this name" description="Try search another movie" type="warning" />
