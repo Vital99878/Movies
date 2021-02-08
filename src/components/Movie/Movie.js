@@ -3,10 +3,11 @@ import './Movie.css';
 import PropTypes from 'prop-types';
 import { Rate } from 'antd';
 import 'antd/dist/antd.css';
-import num_round_half, { truncate_update } from '../../utitlity';
+import { truncate_update } from '../../utitlity';
 import Movies_Service from '../Api';
 
-function Movie({ title, overview, genres, rate, poster_path, release, movie_data, id }) {
+// eslint-disable-next-line no-unused-vars
+function Movie({ title, overview, genres, rate, poster_path, release, movie_data, id, my_rating }) {
   const movie_service = new Movies_Service();
   const monthNames = [
     'January',
@@ -26,16 +27,16 @@ function Movie({ title, overview, genres, rate, poster_path, release, movie_data
 
   const rating = (num) => {
     if (num <= 3) {
-      num = '0-3';
+      num = '0-3'; // eslint-disable-line no-param-reassign
     }
     if (num > 3 && num <= 5) {
-      num = '4-5';
+      num = '4-5'; // eslint-disable-line no-param-reassign
     }
     if (num > 5 && num <= 7) {
-      num = '6-7';
+      num = '6-7'; // eslint-disable-line no-param-reassign
     }
     if (num > 7) {
-      num = '8-10';
+      num = '8-10'; // eslint-disable-line no-param-reassign
     }
     return num;
   };
@@ -57,32 +58,38 @@ function Movie({ title, overview, genres, rate, poster_path, release, movie_data
   };
 
   const add_rate = (star) => {
-    movie_service.add_rate(guest_session_id, star, id).then((res) => console.log(res));
+    movie_service.add_rate(guest_session_id, star, id);
   };
 
   return (
-    <div className="card">
-      <img className="card__poster" src={poster_path} alt="Poster" />
-      <div className="card__description">
+    <li className="card" key={id}>
+        <img className="card__poster" src={poster_path} alt="Po" />
         <div className="card__title_rate">
           <p className="card__title">{title}</p>
           <div className={`card__rate--${rating(rate)}`}>{rate}</div>
         </div>
         <p className="card__release">{release_date(release)}</p>
         <div className="card__genres"> {genres_list}</div>
-        <p className="card__overview">{truncate_update(overview, 220)}</p>
-        <Rate allowHalf defaultValue={0} count={10} style={rate_style} onChange={add_rate} />
-      </div>
-    </div>
+        <p className="card__overview">{truncate_update(overview, 190)}</p>
+        <Rate allowHalf defaultValue={my_rating} count={10} style={rate_style} onChange={add_rate} />
+    </li>
   );
 }
 
 Movie.defaultProp = {
-  label: '',
-  created: 'ett',
-  id: Math.random() * 784,
+  title: '',
+  overview: 'ett',
 };
 Movie.propTypes = {
+  title: PropTypes.string.isRequired,
+  overview: PropTypes.string.isRequired,
+  genres: PropTypes.arrayOf(PropTypes.object).isRequired,
+  rate: PropTypes.number.isRequired,
+  poster_path: PropTypes.string.isRequired,
+  release: PropTypes.isRequired,
+  movie_data: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   genres_ids: PropTypes.arrayOf(PropTypes.object).isRequired,
+  my_rating:PropTypes.number.isRequired
 };
 export default Movie;

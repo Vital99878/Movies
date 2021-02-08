@@ -13,8 +13,22 @@
   grid-template-rows: auto;
   grid-column-gap: 38px;
   grid-row-gap: 34px;
-}
 
+}
+@media (max-width: 1119px ) {
+  .movie_page {
+    align-self: center;
+    grid-template-columns: 500px;
+    grid-template-rows: auto;
+  }
+}
+@media (max-width: 500px ) {
+  .movie_page {
+    align-self: center;
+    grid-template-columns: 420px;
+    grid-template-rows: auto;
+  }
+}
 .movie_page li {
   position: relative;
   font-size: 24px;

@@ -33,8 +33,7 @@ export default class App extends Component {
     }
   }
 
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps, prevState) {
     const { search } = this.state;
     if (search !== prevState.search) {
       this.getMovies(search);
@@ -66,7 +65,14 @@ export default class App extends Component {
       .get_rated_movies(guest_session_id)
       .then((movies) => {
         const { movies_pages, quantity_movies } = movies;
-        this.setState({ movies_pages, quantity_movies, loading: false, error: false, show_search: false });
+        this.setState({
+          movies_pages,
+          quantity_movies,
+          page_number: 0,
+          loading: false,
+          error: false,
+          show_search: false,
+        });
       })
       .catch(() => this.onError());
   };
@@ -77,7 +83,7 @@ export default class App extends Component {
   };
 
   addRate = (guest_session_id, rate) => {
-    this.movie_service.add_rate(guest_session_id, rate)
+    this.movie_service.add_rate(guest_session_id, rate);
   };
 
   change_page_number = (page) => {
@@ -116,7 +122,6 @@ export default class App extends Component {
       show_search,
     } = this.state;
 
-
     if (loading) {
       return (
         <div className="spinner">
@@ -136,7 +141,7 @@ export default class App extends Component {
           {error ? (
             <Alert message="There are no movies with this name" description="Try search another movie" type="warning" />
           ) : (
-            <MoviesList movies_pages={movies_pages} page_number={page_number} />
+            <MoviesList movies_pages={movies_pages} page_number={page_number}/>
           )}
           {error || (
             <Pagination

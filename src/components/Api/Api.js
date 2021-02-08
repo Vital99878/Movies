@@ -18,12 +18,13 @@ export default class Movies_Service {
       poster_path: `https://image.tmdb.org/t/p/w185${movie.poster_path}`,
       release: movie.release_date,
       genres: movie.genre_ids,
+      my_rating: movie.rating
     }));
   }
 
   async get_movies(search_text) {
     const response = await fetch(`${url}?api_key=${api_key}&query=${search_text}`);
-    if (!response.ok) {
+        if (!response.ok) {
       throw new Error(`Not working fetch ${url}: ${response.status}`);
     }
     const body = await response.json();
@@ -89,6 +90,3 @@ export default class Movies_Service {
   }
 }
 
-// post rate https://api.themoviedb.org/3/movie/708336/rating?api_key=4a2f017c8cdb38c57478d603057ad10e&guest_session_id=adcb9deb8c86b7e9cd76a678e5fc67a6
-
-// get rated https://api.themoviedb.org/3/guest_session/5f184e4c665396cb66484b17624c8955/rated/movies?api_key=4a2f017c8cdb38c57478d603057ad10e&sort_by=created_at.asc

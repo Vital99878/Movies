@@ -17,7 +17,7 @@ body {
   background: #fff;
   margin: 40px auto 0 auto;
   position: relative;
-  width: 1110px;
+  max-width: 1110px;
   max-height: 1200px;
   padding: 32px 36px 24px;
   display: flex;
@@ -70,5 +70,22 @@ body {
   place-items: center;
 }
 
-@media (max-width: 430px) {
+@media (max-width: 1119px ) {
+  .app {
+    margin: 0;
+    max-height: 2800px;
+
+  }
 }
+
+@media (max-width: 540px ) {
+  .app {
+    margin: 0;
+    padding: 20px 16px;
+    max-height: 2800px;
+    overflow: hidden;
+  }
+}
+
+
+
