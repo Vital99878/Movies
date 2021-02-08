@@ -10,13 +10,12 @@ const url_post_rate = 'https://api.themoviedb.org/3/movie';
 
 export default class Movies_Service {
   _transform_movies(movies) {
-
     return movies.map((movie) => ({
       id: movie.id,
       title: movie.original_title,
       rate: movie.vote_average,
       overview: movie.overview,
-      poster_path: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
+      poster_path: `https://image.tmdb.org/t/p/w185${movie.poster_path}`,
       release: movie.release_date,
       genres: movie.genre_ids,
     }));
@@ -68,15 +67,24 @@ export default class Movies_Service {
   }
 
   async add_rate(guest_session_id, rate, movie_id) {
-    const body = { value: rate };
-    console.log(JSON.stringify(body))
-    fetch(`${url_post_rate}/${movie_id}/rating$?api_key=${api_key}&guest_session_id=${guest_session_id}`, {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+
+    const raw = JSON.stringify({ value: rate });
+
+    const requestOptions = {
       method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-    }).then(res => console.log(res));
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+
+    fetch( `${url_post_rate}/${movie_id}/rating?api_key=${api_key}&guest_session_id=${guest_session_id}`,
+      requestOptions
+    )
+      // .then((response) => response.text())
+      // .then((result) => console.log(result))
+      // .catch((error) => console.log('error', error));
   }
 }
 

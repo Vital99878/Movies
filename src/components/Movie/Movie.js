@@ -1,10 +1,10 @@
-import React                               from 'react';
+import React from 'react';
 import './Movie.css';
-import PropTypes                           from 'prop-types';
-import { Rate }                            from 'antd';
+import PropTypes from 'prop-types';
+import { Rate } from 'antd';
 import 'antd/dist/antd.css';
 import num_round_half, { truncate_update } from '../../utitlity';
-import Movies_Service                      from '../Api';
+import Movies_Service from '../Api';
 
 function Movie({ title, overview, genres, rate, poster_path, release, movie_data, id }) {
   const movie_service = new Movies_Service();
@@ -22,7 +22,7 @@ function Movie({ title, overview, genres, rate, poster_path, release, movie_data
     'November',
     'December',
   ];
-  const {guest_session_id, genres_ids} = movie_data;
+  const { guest_session_id, genres_ids } = movie_data;
 
   const rating = (num) => {
     if (num <= 3) {
@@ -57,8 +57,8 @@ function Movie({ title, overview, genres, rate, poster_path, release, movie_data
   };
 
   const add_rate = (star) => {
-    movie_service.add_rate(guest_session_id, star, id).then(res => console.log(res))
-  }
+    movie_service.add_rate(guest_session_id, star, id).then((res) => console.log(res));
+  };
 
   return (
     <div className="card">
@@ -71,7 +71,7 @@ function Movie({ title, overview, genres, rate, poster_path, release, movie_data
         <p className="card__release">{release_date(release)}</p>
         <div className="card__genres"> {genres_list}</div>
         <p className="card__overview">{truncate_update(overview, 220)}</p>
-        <Rate allowHalf defaultValue={0} count={10} style={rate_style} onChange={add_rate}/>
+        <Rate allowHalf defaultValue={0} count={10} style={rate_style} onChange={add_rate} />
       </div>
     </div>
   );

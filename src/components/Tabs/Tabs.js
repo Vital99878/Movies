@@ -29,26 +29,13 @@ class Tabs extends Component {
     const { search } = this.state;
     const { ratedTab,searchTab, guest_session_id, } = this.props;
 
-    const toggle_active = (evt) => {
-      const current_tab = evt.target;
-      if (!current_tab.classList.contains('tabs__tab--active') ) {
-        current_tab.classList.add('tabs__tab--active')
-      }
-    };
-
-    const toggle_rated = () => {
-      console.log(guest_session_id);
-      // getRatedMovies(guest_session_id);
-    };
-
-
 
     return (
       <div className="tabs">
         <button onClick={searchTab} className="tabs__tab tabs__tab--active" type="button">
           Search
         </button>
-        <button  onClick={ratedTab} className="tabs__tab" type="button">
+        <button  onClick={() =>ratedTab(guest_session_id)} className="tabs__tab" type="button">
           Rated
         </button>
       </div>
