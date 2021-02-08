@@ -3,11 +3,11 @@ import './App.css';
 import 'antd/dist/antd.css';
 
 import { Pagination, Spin, Alert } from 'antd';
+
 import MoviesList                  from '../MoviesList';
 import Search                      from '../Search';
 import Tabs                        from '../Tabs';
 import Movies_Service              from '../Api';
-
 
 export default class App extends Component {
   movie_service = new Movies_Service();
@@ -85,7 +85,6 @@ export default class App extends Component {
 
   render() {
     const { movies_pages, page_number, genres_ids, quantity_movies, loading, error, search } = this.state;
-
     if ( loading ) {
       return (
         <div className="spinner">
