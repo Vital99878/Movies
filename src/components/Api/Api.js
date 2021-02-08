@@ -30,6 +30,7 @@ export default class Movies_Service {
     const movies = body.results;
     const updated_movies = this._transform_movies(movies);
     const quantity_movies = updated_movies.length;
+
     if (updated_movies.length === 0) {
       throw new Error('not found film');
     }

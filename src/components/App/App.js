@@ -33,6 +33,7 @@ export default class App extends Component {
     }
   }
 
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { search } = this.state;
     if (search !== prevState.search) {

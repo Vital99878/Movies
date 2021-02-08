@@ -37,7 +37,6 @@ export const EventHandler = ( active_class, no_active_class ) => ( evt ) => {
     rm_active_class (active_class, no_active_class)
     item.classList.add (active_class)
   }
-
-
 }
+
 

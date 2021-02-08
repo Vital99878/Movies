@@ -8,7 +8,9 @@ class Search extends Component {
 
   state = {
     search: '',
+
   };
+  onSearch = debounce(onSearch, 500);
 
   render()  {
     const { search } = this.state;
@@ -24,6 +26,7 @@ class Search extends Component {
     return <input className="search" placeholder="Type to search..." onKeyUp={onSearch}/>;
   }
 }
+
 
 // Search.propTypes = { get_search_text: PropTypes.any };
 
