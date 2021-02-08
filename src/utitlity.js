@@ -23,25 +23,20 @@ export function create_pages(arr, divider) {
   return pages;
 }
 
-export function rm_active_class(active_class, no_active_class) {
-  const item = document.querySelector(`. +${active_class}`);
+export function rm_active_class(active_class) {
+  const item = document.querySelector(`.${active_class}`);
   item.classList.remove(active_class);
-  item.classList.add(no_active_class);
 }
 
-export const EventHandler = (active_class, no_active_class) => (evt) => {
-  evt.preventDefault();
+export const EventHandler = ( active_class, no_active_class ) => ( evt ) => {
+  evt.preventDefault()
   const item = evt.target;
-  console.log(item);
+
   // работает с тегом a
   if (item.classList.contains(no_active_class)) {
-    rm_active_class(active_class, no_active_class);
-    item.classList.add(active_class);
+    rm_active_class (active_class, no_active_class)
+    item.classList.add (active_class)
   }
-  // работает с тегом li
-  else if (item.parentNode.classList.contains(no_active_class)) {
-    rm_active_class(active_class, no_active_class);
-    item.parentNode.classList.add(active_class);
-  }
-};
+}
+
 

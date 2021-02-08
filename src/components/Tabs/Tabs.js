@@ -2,25 +2,40 @@ import React, { Component } from 'react';
 import './Tabs.css';
 import { rm_active_class, EventHandler } from '../../utitlity';
 
+
 class Tabs extends Component {
   state = {
     search: '',
   };
 
+
+
+  componentDidMount() {
+    const tabs = document.querySelector('.tabs');
+    tabs.addEventListener('click', this.toggle_t)
+  }
+
+  toggle_t (evt){
+    evt.preventDefault();
+    const item = evt.target;
+
+    if (item.classList.contains('tabs__tab')) {
+      rm_active_class ('tabs__tab--active', 'tabs__tab')
+      item.classList.add ('tabs__tab--active')
+    }
+  }
+
   render() {
     const { search } = this.state;
+    const { ratedTab,searchTab, guest_session_id, } = this.props;
 
-    const toggle_tab = (event) => {
-      const tabs = document.querySelector('.tabs');
-      console.log(event.target);
-    };
 
     return (
       <div className="tabs">
-        <button onClick={toggle_tab} className="tabs__tab tabs__tab--active" type="button">
+        <button onClick={searchTab} className="tabs__tab tabs__tab--active" type="button">
           Search
         </button>
-        <button onClick={toggle_tab} className="tabs__tab" type="button">
+        <button  onClick={() =>ratedTab(guest_session_id)} className="tabs__tab" type="button">
           Rated
         </button>
       </div>
