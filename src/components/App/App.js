@@ -10,7 +10,6 @@ import movie_service from '../Api';
 import { Provider } from '../../genres-context/genres-context';
 
 export default class App extends Component {
-
   state = {
     movies_pages: null,
     page_number: 0,
@@ -21,7 +20,6 @@ export default class App extends Component {
     search: 'return',
     guest_session_id: null,
     show_search: true,
-    finding: false,
   };
 
   componentDidMount() {
@@ -34,11 +32,9 @@ export default class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { search, finding } = this.state;
-    if (finding !== prevState.finding) {
+    const { search } = this.state;
+    if (search !== prevState.search) {
       this.getMovies(search);
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({finding: false})
     }
   }
 
@@ -99,7 +95,10 @@ export default class App extends Component {
   };
 
   get_search_text = (text) => {
-    this.setState({ search: text, loading: true, finding: true });
+    const { search } = this.state;
+    if (text !== search) {
+      this.setState({ search: text, loading: true });
+    }
   };
 
   createGuestSessionId() {
@@ -136,6 +135,7 @@ export default class App extends Component {
     return (
       <section className="app">
         <Provider value={movie_data}>
+
           <div>
             <Tabs ratedTab={this.ratedTab} searchTab={this.searchTab} guest_session_id={guest_session_id} />
             {show_search ? <Search search={search} get_search_text={this.get_search_text} /> : null}
@@ -143,7 +143,7 @@ export default class App extends Component {
           {error ? (
             <Alert message="There are no movies with this name" description="Try search another movie" type="warning" />
           ) : (
-            <MoviesList movies_pages={movies_pages} page_number={page_number}/>
+            <MoviesList movies_pages={movies_pages} page_number={page_number} />
           )}
           {error || (
             <Pagination

@@ -5,7 +5,7 @@ import { Rate } from 'antd';
 import 'antd/dist/antd.css';
 import { truncate } from '../../utitlity';
 import movie_service from '../Api';
-// import mock_img from '../../img/заглушка.png'
+
 
 // eslint-disable-next-line no-unused-vars
 function Movie({ title, overview, genres, rate, poster_path, release, movie_data, id, my_rating }) {
