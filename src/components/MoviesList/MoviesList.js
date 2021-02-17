@@ -2,7 +2,7 @@ import React from 'react';
 import './MoviesList.css';
 import PropTypes from 'prop-types';
 import Movie from '../Movie/Movie';
-import { Consumer } from '../genres-context/genres-context';
+import { Consumer } from '../../genres-context/genres-context';
 
 
 const MoviesList = ({ movies_pages, page_number }) => {

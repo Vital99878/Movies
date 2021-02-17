@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { Rate } from 'antd';
 import 'antd/dist/antd.css';
 import { truncate } from '../../utitlity';
-import Movies_Service from '../Api';
+import movie_service from '../Api';
+// import mock_img from '../../img/заглушка.png'
 
 // eslint-disable-next-line no-unused-vars
 function Movie({ title, overview, genres, rate, poster_path, release, movie_data, id, my_rating }) {
-  const movie_service = new Movies_Service();
   const monthNames = [
     'January',
     'February',
@@ -24,6 +24,7 @@ function Movie({ title, overview, genres, rate, poster_path, release, movie_data
     'December',
   ];
   const { guest_session_id, genres_ids } = movie_data;
+  
 
   const rating = (num) => {
     if (num <= 3) {
@@ -63,15 +64,15 @@ function Movie({ title, overview, genres, rate, poster_path, release, movie_data
 
   return (
     <li className="card" key={id}>
-        <img className="card__poster" src={poster_path} alt="Po" />
-        <div className="card__title_rate">
-          <p className="card__title">{title}</p>
-          <div className={`card__rate--${rating(rate)}`}>{rate}</div>
-        </div>
-        <p className="card__release">{release_date(release)}</p>
-        <div className="card__genres"> {genres_list}</div>
-        <p className="card__overview">{truncate(overview, 190)}</p>
-        <Rate allowHalf defaultValue={my_rating} count={10} style={rate_style} onChange={add_rate} />
+      <img className="card__poster" src={poster_path} alt="Poster" />
+      <div className="card__title_rate">
+        <p className="card__title">{title}</p>
+        <div className={`card__rate--${rating(rate)}`}>{rate}</div>
+      </div>
+      <p className="card__release">{release_date(release)}</p>
+      <div className="card__genres"> {genres_list}</div>
+      <p className="card__overview">{truncate(overview, 190)}</p>
+      <Rate allowHalf defaultValue={my_rating} count={10} style={rate_style} onChange={add_rate} />
     </li>
   );
 }
@@ -90,6 +91,6 @@ Movie.propTypes = {
   movie_data: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
   genres_ids: PropTypes.arrayOf(PropTypes.object).isRequired,
-  my_rating:PropTypes.number.isRequired
+  my_rating: PropTypes.number.isRequired,
 };
 export default Movie;

@@ -6,10 +6,12 @@ import PropTypes from 'prop-types';
 const Search = ({ get_search_text }) => {
   let onSearch = (evt) => {
     const search_data = evt.target.value;
-    get_search_text(search_data);
+    if (search_data.trim() !== '' ) {
+      get_search_text(search_data);
+    }
   };
   onSearch = debounce(onSearch, 800);
-  return <input className="search" placeholder="Type to search..." onKeyUp={onSearch} />;
+  return <input className="search" placeholder="Type to search..." onChange={onSearch} />;
 };
 
 Search.propTypes = { get_search_text: PropTypes.func.isRequired };

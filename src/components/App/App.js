@@ -6,11 +6,10 @@ import { Pagination, Spin, Alert } from 'antd';
 import MoviesList from '../MoviesList';
 import Search from '../Search';
 import Tabs from '../Tabs';
-import Movies_Service from '../Api';
-import { Provider } from '../genres-context/genres-context';
+import movie_service from '../Api';
+import { Provider } from '../../genres-context/genres-context';
 
 export default class App extends Component {
-  movie_service = new Movies_Service();
 
   state = {
     movies_pages: null,
@@ -22,6 +21,7 @@ export default class App extends Component {
     search: 'return',
     guest_session_id: null,
     show_search: true,
+    finding: false,
   };
 
   componentDidMount() {
@@ -34,14 +34,16 @@ export default class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { search } = this.state;
-    if (search !== prevState.search) {
+    const { search, finding } = this.state;
+    if (finding !== prevState.finding) {
       this.getMovies(search);
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({finding: false})
     }
   }
 
   getMovies(movie) {
-    this.movie_service
+    movie_service
       .get_movies(movie)
       .then((movies) => {
         const { movies_pages, quantity_movies } = movies;
@@ -51,7 +53,7 @@ export default class App extends Component {
   }
 
   getGenres() {
-    this.movie_service
+    movie_service
       .get_genres()
       .then((genres_ids) => {
         this.setState({ genres_ids });
@@ -61,7 +63,7 @@ export default class App extends Component {
 
   ratedTab = (guest_session_id) => {
     this.setState({ show_search: false });
-    this.movie_service
+    movie_service
       .get_rated_movies(guest_session_id)
       .then((movies) => {
         const { movies_pages, quantity_movies } = movies;
@@ -83,7 +85,7 @@ export default class App extends Component {
   };
 
   addRate = (guest_session_id, rate) => {
-    this.movie_service.add_rate(guest_session_id, rate);
+    movie_service.add_rate(guest_session_id, rate);
   };
 
   change_page_number = (page) => {
@@ -97,11 +99,11 @@ export default class App extends Component {
   };
 
   get_search_text = (text) => {
-    this.setState({ search: text, loading: true });
+    this.setState({ search: text, loading: true, finding: true });
   };
 
   createGuestSessionId() {
-    this.movie_service
+    movie_service
       .get_guest_session_id()
       .then((guest_session_id) => {
         this.setState({ guest_session_id });

@@ -1,31 +1,29 @@
-import './Api.css';
+
 import { create_pages } from '../../utitlity';
 
-const api_key = '4a2f017c8cdb38c57478d603057ad10e';
-const url = 'https://api.themoviedb.org/3/search/movie/';
-const url_genre = 'https://api.themoviedb.org/3/genre/movie/list';
-const url_guest = 'https://api.themoviedb.org/3/authentication/guest_session/new';
-const url_rated = 'https://api.themoviedb.org/3/guest_session';
-const url_post_rate = 'https://api.themoviedb.org/3/movie';
+const base = 'https://api.themoviedb.org/3';
+const key = '4a2f017c8cdb38c57478d603057ad10e';
 
-export default class Movies_Service {
+class Movies_Service {
   _transform_movies(movies) {
-    return movies.map((movie) => ({
-      id: movie.id,
-      title: movie.original_title,
-      rate: movie.vote_average,
-      overview: movie.overview,
-      poster_path: `https://image.tmdb.org/t/p/w185${movie.poster_path}`,
-      release: movie.release_date,
-      genres: movie.genre_ids,
-      my_rating: movie.rating
-    }));
+    return movies.map(
+      ({ genre_ids, id, original_title, overview, poster_path, rating, release_date, vote_average }) => ({
+        id,
+        title: original_title,
+        rate: vote_average,
+        overview,
+        poster_path: `https://image.tmdb.org/t/p/w185${poster_path}`,
+        release: release_date,
+        genres: genre_ids,
+        my_rating: rating,
+      })
+    );
   }
 
   async get_movies(search_text) {
-    const response = await fetch(`${url}?api_key=${api_key}&query=${search_text}`);
-        if (!response.ok) {
-      throw new Error(`Not working fetch ${url}: ${response.status}`);
+    const response = await fetch(`${base}/search/movie?api_key=${key}&query=${search_text}`);
+    if (!response.ok) {
+      throw new Error(`Not working fetch ${base}/search/movie: ${response.status}`);
     }
     const body = await response.json();
     const movies = body.results;
@@ -39,23 +37,23 @@ export default class Movies_Service {
   }
 
   async get_genres() {
-    const response = await fetch(`${url_genre}?api_key=${api_key}`);
+    const response = await fetch(`${base}/genre/movie/list?api_key=${key}`);
     if (!response.ok) {
-      throw new Error(`Not working fetch ${url}: ${response.status}`);
+      throw new Error(`Not working fetch ${base}/search/movie: ${response.status}`);
     }
     const body = await response.json();
     return body.genres;
   }
 
   async get_guest_session_id() {
-    const response = await fetch(`${url_guest}?api_key=${api_key}`);
+    const response = await fetch(`${base}/authentication/guest_session/new?api_key=${key}`);
     const body = await response.json();
     return body.guest_session_id;
   }
 
   async get_rated_movies(guest_session_id) {
     const response = await fetch(
-      `${url_rated}/${guest_session_id}/rated/movies?api_key=${api_key}&sort_by=created_at.asc`
+      `${base}/guest_session/${guest_session_id}/rated/movies?api_key=${key}&sort_by=created_at.asc`
     );
     const body = await response.json();
     const movies = body.results;
@@ -81,12 +79,10 @@ export default class Movies_Service {
       redirect: 'follow',
     };
 
-    fetch( `${url_post_rate}/${movie_id}/rating?api_key=${api_key}&guest_session_id=${guest_session_id}`,
-      requestOptions
-    )
-      // .then((response) => response.text())
-      // .then((result) => console.log(result))
-      // .catch((error) => console.log('error', error));
+    await fetch(`${base}/movie/${movie_id}/rating?api_key=${key}&guest_session_id=${guest_session_id}`, requestOptions);
   }
 }
 
+const movie_service = new Movies_Service();
+
+export default movie_service;

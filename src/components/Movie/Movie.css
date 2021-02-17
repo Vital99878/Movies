@@ -4,11 +4,11 @@
   src: url('../../fonts/Inter-Regular.ttf'), url('../../fonts/Inter-Regular.ttf');
 }
 
-@font-face {
-  font-family: 'Inter-Medium';
-  font-weight: normal;
-  src: url('../../fonts/Inter-Medium.ttf'), url('../../fonts/Inter-Medium.ttf');
-}
+/*@font-face {*/
+/*  font-family: 'Inter-Medium';*/
+/*  font-weight: normal;*/
+/*  src: url('../../fonts/Inter-Medium.ttf'), url('../../fonts/Inter-Medium.ttf');*/
+/*}*/
 
 .card {
   padding: 0 14px 8px 0;

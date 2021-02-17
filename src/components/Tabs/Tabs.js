@@ -17,7 +17,6 @@ export default class Tabs extends Component {
   toggle_t(evt) {
     evt.preventDefault();
     const item = evt.target;
-
     if (item.classList.contains('tabs__tab')) {
       rm_class('tabs__tab--active', 'tabs__tab');
       item.classList.add('tabs__tab--active');
