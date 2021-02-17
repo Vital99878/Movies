@@ -3,7 +3,7 @@ import './Movie.css';
 import PropTypes from 'prop-types';
 import { Rate } from 'antd';
 import 'antd/dist/antd.css';
-import { truncate_update } from '../../utitlity';
+import { truncate } from '../../utitlity';
 import Movies_Service from '../Api';
 
 // eslint-disable-next-line no-unused-vars
@@ -70,7 +70,7 @@ function Movie({ title, overview, genres, rate, poster_path, release, movie_data
         </div>
         <p className="card__release">{release_date(release)}</p>
         <div className="card__genres"> {genres_list}</div>
-        <p className="card__overview">{truncate_update(overview, 190)}</p>
+        <p className="card__overview">{truncate(overview, 190)}</p>
         <Rate allowHalf defaultValue={my_rating} count={10} style={rate_style} onChange={add_rate} />
     </li>
   );

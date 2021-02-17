@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Tabs.css';
 import PropTypes from 'prop-types';
-import { rm_active_class } from '../../utitlity';
+import { rm_class } from '../../utitlity';
 
 export default class Tabs extends Component {
   state = {
@@ -19,7 +19,7 @@ export default class Tabs extends Component {
     const item = evt.target;
 
     if (item.classList.contains('tabs__tab')) {
-      rm_active_class('tabs__tab--active', 'tabs__tab');
+      rm_class('tabs__tab--active', 'tabs__tab');
       item.classList.add('tabs__tab--active');
     }
   }

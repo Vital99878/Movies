@@ -1,14 +1,8 @@
-export default function num_round_half(num) {
-  const res = Math.floor(num);
-  const i = num % res;
-  return i < 0.25 ? res : i < 0.75 ? res + 0.5 : res + 1;
-}
-
-export function truncate_update(str, maxlength) {
+export function truncate(str, maxlength) {
   const words = str.split(' ');
   words.splice(words.length - 1, 1);
 
-  return words.join(' ').length <= maxlength ? `${words.join(' ')} …` : truncate_update(words.join(' '), maxlength);
+  return words.join(' ').length <= maxlength ? `${words.join(' ')} …` : truncate(words.join(' '), maxlength);
 }
 
 export function create_pages(arr, divider) {
@@ -17,26 +11,17 @@ export function create_pages(arr, divider) {
     const page = arr.splice(0, divider);
     pages.push(page);
   }
-  if (arr.length !== 0) {
+  if (arr.length !== 0)  {
     pages.push(arr);
   }
   return pages;
 }
 
-export function rm_active_class(active_class) {
-  const item = document.querySelector(`.${active_class}`);
-  item.classList.remove(active_class);
+export function rm_class(claz) {
+  const item = document.querySelector(`.${claz}`);
+  item.classList.remove(claz);
 }
 
-export const EventHandler = ( active_class, no_active_class ) => ( evt ) => {
-  evt.preventDefault()
-  const item = evt.target;
 
-  // работает с тегом a
-  if (item.classList.contains(no_active_class)) {
-    rm_active_class (active_class, no_active_class)
-    item.classList.add (active_class)
-  }
-}
 
 
