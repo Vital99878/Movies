@@ -20,6 +20,7 @@ export default class App extends Component {
     search: 'return',
     guest_session_id: null,
     show_search: true,
+    error_msg: '',
   };
 
   componentDidMount() {
@@ -45,7 +46,9 @@ export default class App extends Component {
         const { movies_pages, quantity_movies } = movies;
         this.setState({ movies_pages, quantity_movies, loading: false, error: false });
       })
-      .catch(() => this.onError());
+      .catch((error) => {
+        this.onError(error.message)
+      });
   }
 
   getGenres() {
@@ -54,7 +57,10 @@ export default class App extends Component {
       .then((genres_ids) => {
         this.setState({ genres_ids });
       })
-      .catch(() => this.onError());
+      .catch((error) => {
+        this.onError(error.message)
+      });
+
   }
 
   ratedTab = (guest_session_id) => {
@@ -72,7 +78,9 @@ export default class App extends Component {
           show_search: false,
         });
       })
-      .catch(() => this.onError());
+      .catch((error) => {
+        this.onError(error.message)
+      });
   };
 
   searchTab = () => {
@@ -90,8 +98,8 @@ export default class App extends Component {
     });
   };
 
-  onError = () => {
-    this.setState({ loading: false, error: true });
+  onError = (msg) => {
+    this.setState({ loading: false, error: true, error_msg: msg });
   };
 
   get_search_text = (text) => {
@@ -107,7 +115,7 @@ export default class App extends Component {
       .then((guest_session_id) => {
         this.setState({ guest_session_id });
       })
-      .catch(() => this.onError());
+      .catch((error) => this.onError(error.message));
   }
 
   render() {
@@ -121,6 +129,7 @@ export default class App extends Component {
       search,
       guest_session_id,
       show_search,
+      error_msg,
     } = this.state;
 
     if (loading) {
@@ -135,13 +144,16 @@ export default class App extends Component {
     return (
       <section className="app">
         <Provider value={movie_data}>
-
           <div>
             <Tabs ratedTab={this.ratedTab} searchTab={this.searchTab} guest_session_id={guest_session_id} />
             {show_search ? <Search search={search} get_search_text={this.get_search_text} /> : null}
           </div>
           {error ? (
-            <Alert message="There are no movies with this name" description="Try search another movie" type="warning" />
+            <Alert
+              message={error_msg}
+              description=""
+              type="warning"
+            />
           ) : (
             <MoviesList movies_pages={movies_pages} page_number={page_number} />
           )}
