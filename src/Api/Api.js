@@ -1,18 +1,18 @@
 import { create_pages } from '../utitlity';
-import mock from '../img/mock_img.png'
+import mock from '../img/mock_img.png';
 
 const base = 'https://api.themoviedb.org/3';
 const key = '4a2f017c8cdb38c57478d603057ad10e';
 
 class Movies_Service {
-  _transform_movies(movies) {
+  transform_movies(movies) {
     return movies.map(
       ({ genre_ids, id, original_title, overview, poster_path, rating, release_date, vote_average }) => ({
         id,
         title: original_title,
         rate: vote_average,
         overview,
-        poster_path: poster_path? `https://image.tmdb.org/t/p/w185${poster_path}` : mock,
+        poster_path: poster_path ? `https://image.tmdb.org/t/p/w185${poster_path}` : mock,
         release: release_date,
         genres: genre_ids,
         my_rating: rating,
@@ -27,7 +27,7 @@ class Movies_Service {
     }
     const body = await response.json();
     const movies = body.results;
-    const updated_movies = this._transform_movies(movies);
+    const updated_movies = this.transform_movies(movies);
     const quantity_movies = updated_movies.length;
 
     if (updated_movies.length === 0) {
@@ -57,7 +57,7 @@ class Movies_Service {
     );
     const body = await response.json();
     const movies = body.results;
-    const updated_movies = this._transform_movies(movies);
+    const updated_movies = this.transform_movies(movies);
 
     const quantity_movies = updated_movies.length;
     if (updated_movies.length === 0) {
@@ -83,4 +83,4 @@ class Movies_Service {
   }
 }
 
-export default  new Movies_Service;
+export default new Movies_Service();
