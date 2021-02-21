@@ -17,9 +17,9 @@ export function create_pages(arr, divider) {
   return pages;
 }
 
-export function rm_class(claz) {
-  const item = document.querySelector(`.${claz}`);
-  item.classList.remove(claz);
+export function remove_class(current_class) {
+  const item = document.querySelector(`.${current_class}`);
+  item.classList.remove(current_class);
 }
 
 

@@ -1,5 +1,5 @@
-import { create_pages } from '../../utitlity';
-import mock from '../../img/mock_img.png'
+import { create_pages } from '../utitlity';
+import mock from '../img/mock_img.png'
 
 const base = 'https://api.themoviedb.org/3';
 const key = '4a2f017c8cdb38c57478d603057ad10e';
@@ -83,6 +83,4 @@ class Movies_Service {
   }
 }
 
-const movie_service = new Movies_Service();
-
-export default movie_service;
+export default  new Movies_Service;

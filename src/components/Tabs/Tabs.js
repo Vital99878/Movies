@@ -1,7 +1,7 @@
 import React from 'react';
 import './Tabs.css';
 import PropTypes from 'prop-types';
-import { rm_class } from '../../utitlity';
+import { remove_class } from '../../utitlity';
 
 
 const Tabs = ({ ratedTab, searchTab, guest_session_id }) => {
@@ -12,7 +12,7 @@ const Tabs = ({ ratedTab, searchTab, guest_session_id }) => {
     const tab_value = evt.target.textContent;
     const item = evt.target;
     if (item.classList.contains('tabs__tab')) {
-      rm_class('tabs__tab--active');
+      remove_class('tabs__tab--active');
       item.classList.add('tabs__tab--active');
     }
     if (tab_value === 'Search') {

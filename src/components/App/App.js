@@ -6,7 +6,7 @@ import { Pagination, Spin, Alert } from 'antd';
 import MoviesList from '../MoviesList';
 import Search from '../Search';
 import Tabs from '../Tabs';
-import movie_service from '../Api';
+import movie_service from '../../Api';
 import { Provider } from '../../genres-context/genres-context';
 
 export default class App extends Component {
