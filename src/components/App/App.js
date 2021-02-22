@@ -42,32 +42,36 @@ export default class App extends Component {
   getMovies(movie) {
     movie_service
       .get_movies(movie)
-      .then((movies) => {
+      .then(movies => {
         const { movies_pages, quantity_movies } = movies;
-        this.setState({ movies_pages, quantity_movies, loading: false, error: false });
+        this.setState({
+          movies_pages,
+          quantity_movies,
+          loading: false,
+          error: false,
+        });
       })
-      .catch((error) => {
-        this.onError(error.message)
+      .catch(error => {
+        this.onError(error.message);
       });
   }
 
   getGenres() {
     movie_service
       .get_genres()
-      .then((genres_ids) => {
+      .then(genres_ids => {
         this.setState({ genres_ids });
       })
-      .catch((error) => {
-        this.onError(error.message)
+      .catch(error => {
+        this.onError(error.message);
       });
-
   }
 
-  ratedTab = (guest_session_id) => {
+  ratedTab = guest_session_id => {
     this.setState({ show_search: false });
     movie_service
       .get_rated_movies(guest_session_id)
-      .then((movies) => {
+      .then(movies => {
         const { movies_pages, quantity_movies } = movies;
         this.setState({
           movies_pages,
@@ -78,8 +82,8 @@ export default class App extends Component {
           show_search: false,
         });
       })
-      .catch((error) => {
-        this.onError(error.message)
+      .catch(error => {
+        this.onError(error.message);
       });
   };
 
@@ -92,17 +96,17 @@ export default class App extends Component {
     movie_service.add_rate(guest_session_id, rate);
   };
 
-  change_page_number = (page) => {
+  change_page_number = page => {
     this.setState({
       page_number: page - 1,
     });
   };
 
-  onError = (msg) => {
+  onError = msg => {
     this.setState({ loading: false, error: true, error_msg: msg });
   };
 
-  get_search_text = (text) => {
+  get_search_text = text => {
     const { search } = this.state;
     if (text !== search) {
       this.setState({ search: text, loading: true });
@@ -112,10 +116,10 @@ export default class App extends Component {
   createGuestSessionId() {
     movie_service
       .get_guest_session_id()
-      .then((guest_session_id) => {
+      .then(guest_session_id => {
         this.setState({ guest_session_id });
       })
-      .catch((error) => this.onError(error.message));
+      .catch(error => this.onError(error.message));
   }
 
   render() {
@@ -134,26 +138,26 @@ export default class App extends Component {
 
     if (loading) {
       return (
-        <div className="spinner">
-          <Spin size="large" />
+        <div className='spinner'>
+          <Spin size='large' />
         </div>
       );
     }
     const movie_data = { guest_session_id, genres_ids };
 
     return (
-      <section className="app">
+      <section className='app'>
         <Provider value={movie_data}>
-          <div>
-            <Tabs ratedTab={this.ratedTab} searchTab={this.searchTab} guest_session_id={guest_session_id} />
-            {show_search ? <Search search={search} get_search_text={this.get_search_text} /> : null}
-          </div>
+          <Tabs
+            ratedTab={this.ratedTab}
+            searchTab={this.searchTab}
+            guest_session_id={guest_session_id}
+          />
+          {show_search ? (
+            <Search search={search} get_search_text={this.get_search_text} />
+          ) : null}
           {error ? (
-            <Alert
-              message={error_msg}
-              description=""
-              type="warning"
-            />
+            <Alert message={error_msg} description='' type='warning' />
           ) : (
             <MoviesList movies_pages={movies_pages} page_number={page_number} />
           )}
