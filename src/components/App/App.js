@@ -1,100 +1,175 @@
 import React, { Component } from 'react';
 import './App.css';
+import 'antd/dist/antd.css';
 
+import { Pagination, Spin, Alert } from 'antd';
 import MoviesList from '../MoviesList';
-import Pagination from '../Pagination';
 import Search from '../Search';
+import Tabs from '../Tabs';
+import movie_service from '../../Api';
+import { Provider } from '../../genres-context/genres-context';
 
 export default class App extends Component {
   state = {
-    todo_list: [
-      {
-        label: 'Completed task',
-        created: new Date(2021, 0, 25, 14, 55),
-        id: 11,
-        status: 'active',
-      },
-      {
-        label: 'Editing task',
-        created: new Date(2020, 11, 12, 14, 55),
-        id: 52,
-        status: 'active',
-      },
-      {
-        label: 'Active task',
-        created: new Date(2021, 0, 20, 10, 55),
-        id: 3,
-        status: 'active',
-      },
-    ],
-    filter: 'all', // all, active, completed
+    movies_pages: null,
+    page_number: 0,
+    genres_ids: [],
+    quantity_movies: 0,
+    loading: true,
+    error: false,
+    search: 'return',
+    guest_session_id: null,
+    show_search: true,
+    error_msg: '',
   };
 
-  toggle_status = (id) => {
-    const { todo_list } = this.state;
-    const updated_todo_list = todo_list.map((todo) => {
-      if (todo.id === id) {
-        todo.status = todo.status === 'active' ? (todo.status = 'completed') : 'active';
-      }
-      return todo;
-    });
-    this.setState({ todo_list: updated_todo_list });
-  };
+  componentDidMount() {
+    this.getMovies('return');
+    this.getGenres();
+    const { guest_session_id } = this.state;
+    if (!guest_session_id) {
+      this.createGuestSessionId();
+    }
+  }
 
-  add_new_todo = (label) => {
-    if (label.length >= 3) {
-      this.setState(({ todo_list }) => {
-        const new_todo = {
-          label,
-          created: Date.now(),
-          id: Math.random() * 15875,
-          status: 'active',
-        };
-        return {
-          todo_list: [...todo_list, new_todo],
-        };
+  componentDidUpdate(prevProps, prevState) {
+    const { search } = this.state;
+    if (search !== prevState.search) {
+      this.getMovies(search);
+    }
+  }
+
+  getMovies(movie) {
+    movie_service
+      .get_movies(movie)
+      .then(movies => {
+        const { movies_pages, quantity_movies } = movies;
+        this.setState({
+          movies_pages,
+          quantity_movies,
+          loading: false,
+          error: false,
+        });
+      })
+      .catch(error => {
+        this.onError(error.message);
       });
+  }
+
+  getGenres() {
+    movie_service
+      .get_genres()
+      .then(genres_ids => {
+        this.setState({ genres_ids });
+      })
+      .catch(error => {
+        this.onError(error.message);
+      });
+  }
+
+  ratedTab = guest_session_id => {
+    this.setState({ show_search: false });
+    movie_service
+      .get_rated_movies(guest_session_id)
+      .then(movies => {
+        const { movies_pages, quantity_movies } = movies;
+        this.setState({
+          movies_pages,
+          quantity_movies,
+          page_number: 0,
+          loading: false,
+          error: false,
+          show_search: false,
+        });
+      })
+      .catch(error => {
+        this.onError(error.message);
+      });
+  };
+
+  searchTab = () => {
+    this.setState({ show_search: true });
+    this.getMovies('return');
+  };
+
+  addRate = (guest_session_id, rate) => {
+    movie_service.add_rate(guest_session_id, rate);
+  };
+
+  change_page_number = page => {
+    this.setState({
+      page_number: page - 1,
+    });
+  };
+
+  onError = msg => {
+    this.setState({ loading: false, error: true, error_msg: msg });
+  };
+
+  get_search_text = text => {
+    const { search } = this.state;
+    if (text !== search) {
+      this.setState({ search: text, loading: true });
     }
   };
 
-  remove_todo = (id) => {
-    this.setState(({ todo_list }) => ({
-      todo_list: todo_list.filter((todo) => todo.id !== id),
-    }));
-  };
-
-  toggle_filter = (filter) => {
-    this.setState({ filter });
-  };
-
-  clear_completed = () => {
-    this.setState(({ todo_list }) => ({
-      todo_list: todo_list.filter((item) => item.status !== 'completed'),
-    }));
-  };
-
-  filter = (items, filter) => {
-    switch (filter) {
-      case 'all':
-        return items;
-      case 'active':
-        return items.filter((item) => item.status === 'active');
-      case 'completed':
-        return items.filter((item) => item.status === 'completed');
-      default:
-        return items;
-    }
-  };
+  createGuestSessionId() {
+    movie_service
+      .get_guest_session_id()
+      .then(guest_session_id => {
+        this.setState({ guest_session_id });
+      })
+      .catch(error => this.onError(error.message));
+  }
 
   render() {
-    const { todo_list, filter } = this.state;
-    const visibleList = this.filter(todo_list, filter);
+    const {
+      movies_pages,
+      page_number,
+      genres_ids,
+      quantity_movies,
+      loading,
+      error,
+      search,
+      guest_session_id,
+      show_search,
+      error_msg,
+    } = this.state;
+
+    if (loading) {
+      return (
+        <div className='spinner'>
+          <Spin size='large' />
+        </div>
+      );
+    }
+    const movie_data = { guest_session_id, genres_ids };
 
     return (
-      <section className="movie-app">
-        <Search toggle_filter={visibleList} />
-        <MoviesList list_arr={visibleList} toggle_status={this.toggle_status} remove_todo={this.remove_todo} />
-        <Pagination clear_completed={this.clear_completed} toggle_filter={this.toggle_filter} />
+      <section className='app'>
+        <Provider value={movie_data}>
+          <Tabs
+            ratedTab={this.ratedTab}
+            searchTab={this.searchTab}
+            guest_session_id={guest_session_id}
+          />
+          {show_search ? (
+            <Search search={search} get_search_text={this.get_search_text} />
+          ) : null}
+          {error ? (
+            <Alert message={error_msg} description='' type='warning' />
+          ) : (
+            <MoviesList movies_pages={movies_pages} page_number={page_number} />
+          )}
+          {error || (
+            <Pagination
+              current={page_number + 1}
+              pageSize={6}
+              onChange={this.change_page_number}
+              total={quantity_movies}
+            />
+          )}
+        </Provider>
       </section>
     );
   }

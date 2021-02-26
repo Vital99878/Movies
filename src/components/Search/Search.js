@@ -1,29 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Search.css';
+import debounce from 'lodash.debounce';
+import PropTypes from 'prop-types';
 
-class Search extends Component {
-  state = {
-    search: '',
+const Search = ({ get_search_text }) => {
+  let onSearch = evt => {
+    const search_data = evt.target.value;
+    if (search_data.trim() !== '') {
+      get_search_text(search_data);
+    }
   };
+  onSearch = debounce(onSearch, 800);
+  return (
+    <input
+      className='search'
+      placeholder='Type to search...'
+      onChange={onSearch}
+    />
+  );
+};
 
-  onSearch(evt) {
-    console.log(evt.target.value);
-  }
-
-  render() {
-    const { search } = this.state;
-
-    return <input className="search" placeholder="Type to search..." onChange={this.onSearch} />;
-  }
-}
-
-// Search.defaultProps = {
-//   filter: 'all',
-// };
-//
-// Search.propTypes = {
-//   filter: PropTypes.oneOf(['all', 'active', 'completed']),
-//   toggle_filter: PropTypes.func.isRequired,
-// };
+Search.propTypes = { get_search_text: PropTypes.func.isRequired };
 
 export default Search;
